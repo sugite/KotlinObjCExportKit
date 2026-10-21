@@ -32,3 +32,5 @@ class GreetingService @ObjCExport constructor() {
 
 @ObjCExport(group = "Models", synthetic = ["enum:READY", "enum:DONE"])
 enum class GreetingState { READY, DONE, INTERNAL }
+
+class InternalDiagnostics(val message: String)

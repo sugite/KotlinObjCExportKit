@@ -2,6 +2,7 @@
 .kotlin/
 **/build/
 .idea/
+.claude/
 *.iml
 .DS_Store
 local.properties
@@ -14,3 +15,6 @@ local.properties
 *.p8
 *.pem
 *.mobileprovision
+**/xcuserdata/
+*.xcuserstate
+**/__pycache__/

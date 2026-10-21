@@ -2,6 +2,11 @@
 
 [简体中文](README.zh-CN.md)
 
+> **Composite builds only.** KOEK is currently available only as a local source
+> checkout included through Gradle composite builds. No binaries are published to
+> Maven Central or the Gradle Plugin Portal. The coordinates shown below must be
+> resolved through the documented local dependency substitutions.
+
 **Choose the Kotlin APIs that iOS can use. Organize their Objective-C declarations into grouped headers. Keep one framework.**
 
 KOEK adds an explicit allowlist to Kotlin/Native's Objective-C export pipeline.
@@ -10,9 +15,9 @@ header group. Unselected declarations remain usable by Kotlin code.
 
 This is an **experimental, source-only project** for **Kotlin 2.2.21**. It uses
 internal compiler APIs and reflective phase interception. There is no published
-Gradle Plugin Portal or Maven Central release. The standalone build and runtime
-validation matrix has not been executed for this checkout; the commands below
-are reproduction instructions, not claims of passing tests.
+Gradle Plugin Portal or Maven Central release. The included Debug example has
+automated header, negative-compilation, and Swift runtime checks. This covers
+the example's API surface, not every Kotlin declaration or build configuration.
 
 ## Why it exists
 
@@ -68,8 +73,9 @@ Swift still uses `import DemoKit`.
 | Kotlin / Kotlin Gradle plugin | Exactly **2.2.21**; other compiler versions are rejected |
 | JDK | **21** for building the plugins |
 | Gradle Wrapper | **9.3.1**; broader compatibility is not claimed |
-| Native build host | macOS with an installed, selected Xcode and the required Apple SDKs |
-| Annotations | JVM 17, iOS x64, iOS arm64, and iOS simulator arm64 variants |
+| Native build host | Apple Silicon macOS with an installed, selected Xcode and the required Apple SDKs |
+| Annotations | JVM 17, iOS arm64, and iOS simulator arm64 variants |
+| Demo verification | Python 3, an available iPhone simulator, and the tools above |
 | Export backend | Kotlin/Native **Objective-C export**, not Swift export |
 | Distribution | Local composite builds; no artifacts are published yet |
 | License | MIT for KOEK; see [third-party notices](THIRD_PARTY_NOTICES.md) |
@@ -82,22 +88,67 @@ variants and separate validation; they are not enabled by this repository.
 ## Try the included example
 
 The [basic example](examples/basic) is a separate consumer build. It contains a
-DTO, a callback protocol, a service, and a deliberately partial enum export.
+DTO, a callback protocol, a service, a deliberately partial enum export, and a
+Swift iOS application with XCTest assertions. The sample supports arm64 device
+and arm64 simulator builds only.
 
 From the repository root, with JDK 21 selected:
 
 ```bash
-./gradlew -p examples/basic :shared:linkDebugFrameworkIosSimulatorArm64
+python3 examples/basic/verify.py
 ```
 
-The framework is written to:
+The script builds a Debug XCFramework, checks its public surface, runs five
+Swift XCTest cases on an iOS simulator, and launches the demo application. It
+reuses a booted iPhone simulator when available; otherwise it boots an available
+iPhone. To choose a particular device, pass `--simulator <UDID>`.
+
+| Automatic check | Expected result |
+| --- | --- |
+| Header grouping | Exactly Base, Models, and Services plus the umbrella; each selected definition is in its intended group |
+| Header imports | Every header independently passes Objective-C syntax checking for device and simulator |
+| XCFramework packaging | Exactly two arm64 slices; packaged headers match the linked frameworks |
+| Hidden method and type | Swift cannot access `diagnosticMessage()` or `InternalDiagnostics` |
+| Enum selection | Swift cannot access the unselected `GreetingState.internal` entry |
+| Property access | Swift cannot write `Person.name`; it can read/write `GreetingService.enabled` at runtime |
+| Swift runtime | DTO construction, greeting call, setter effects, Kotlin-to-Swift callback, and enum identity all pass |
+
+Logs and `summary.json` are written under `examples/basic/build/verification/`,
+which is ignored by Git. A failed check exits nonzero. No signing team is needed
+for simulator verification. This command does not publish artifacts.
+
+To use Xcode interactively, first build the framework, then open the checked-in
+project:
+
+```bash
+./gradlew -p examples/basic :shared:assembleDemoKitDebugXCFramework
+open examples/basic/iosApp/KOEKDemo.xcodeproj
+```
+
+Choose the **KOEKDemo** scheme and an arm64 iPhone simulator, then Run. The app
+shows five green checks when the Swift/Kotlin calls succeed. Use Product → Test
+to rerun the XCTest cases. The scheme is intentionally Debug-only and consumes
+the generated Debug XCFramework; it is not a release-distribution template.
+For a physical device, select your own signing team. Device execution has not
+been validated by the simulator checks.
+
+The XCFramework and individual simulator framework are written to:
 
 ```text
+examples/basic/shared/build/XCFrameworks/debug/DemoKit.xcframework
 examples/basic/shared/build/bin/iosSimulatorArm64/debugFramework/DemoKit.framework
 ```
 
-For a device build, use `:shared:linkDebugFrameworkIosArm64`. The example does not
-install or run an iOS application, and does not publish any artifacts.
+For framework-only builds, use `:shared:linkDebugFrameworkIosArm64` or
+`:shared:linkDebugFrameworkIosSimulatorArm64`. The Xcode project is checked in;
+XcodeGen is needed only if a maintainer changes `examples/basic/iosApp/project.yml`
+and regenerates it with `xcodegen generate --spec examples/basic/iosApp/project.yml`.
+
+Verified on 2026-10-21 with Kotlin 2.2.21, Gradle 9.3.1, JDK 21, Xcode 26.3,
+and the iOS 26.2 simulator SDK: Debug arm64 device/simulator framework builds,
+header/negative-compilation checks, five Swift runtime tests, and simulator app
+launch. Release, physical-device execution, other Kotlin versions, and a full
+compiler-plugin regression matrix are outside this validation.
 
 ## Add KOEK to an existing project
 
@@ -329,7 +380,8 @@ successful framework build.
 - Framework build caching is subject to Kotlin Gradle plugin restrictions. KOEK
   does not override Native's cache policy. Configuration-cache compatibility is
   not claimed for this standalone checkout.
-- No automated API-baseline gate or runtime regression suite is included yet.
+- The example has automated runtime and export-surface checks, but there is no
+  general API-baseline gate or full compiler-plugin regression matrix.
   Deterministic grouping cannot decide whether a business-level group is sensible.
 
 ## Repository layout
@@ -339,7 +391,7 @@ annotations/       Public @ObjCExport annotation and access modes
 compiler-plugin/   Kotlin 2.2.21 adapter, export plan, bridge filtering, rendering
 gradle-plugin/     Link task integration and framework file output
 shared/            Pure JVM header-bundle protocol and atomic file utilities
-examples/basic/    Self-contained consumer using the local composite build
+examples/basic/    KMP consumer, Swift iOS demo, XCTest cases, verification script
 ```
 
 The shared sources are compiled into both plugin JARs; they are not another
@@ -356,4 +408,5 @@ Before treating a change as release-ready, verify positive and negative export
 cases, callback and inherited dispatch behavior, individual header imports,
 stale-group cleanup, repeated-output consistency, and the intended device and
 simulator build variants. This is a release checklist, not a claim that this
-checkout has passed it.
+checkout has passed the entire matrix. The basic Debug example's verified scope
+is described above.

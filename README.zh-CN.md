@@ -2,6 +2,10 @@
 
 [English](README.md)
 
+> **目前仅支持本地 composite build。** 请检出本仓库源码，并按下文配置 Gradle
+> included build 和依赖替换。尚未向 Maven Central 或 Gradle Plugin Portal 发布二进制包，
+> 不能直接从这些仓库引用下文中的坐标。
+
 **明确选择 iOS 能使用的 Kotlin 接口，按业务组织头文件，最终仍交付一个 Framework。**
 
 KOEK 是一套 Kotlin/Native Objective-C 导出工具。通过 `@ObjCExport`
@@ -9,8 +13,8 @@ KOEK 是一套 Kotlin/Native Objective-C 导出工具。通过 `@ObjCExport`
 但不会自动成为 iOS 的公开入口。
 
 目前是面向 **Kotlin 2.2.21** 的**实验性源码项目**，依赖编译器内部 API 和反射阶段拦截。
-尚未发布到 Gradle Plugin Portal 或 Maven Central。当前独立仓库尚未完成编译、链接及运行
-验证矩阵；文中的命令是复现步骤，不代表已经验证通过。
+尚未发布到 Gradle Plugin Portal 或 Maven Central。当前 Debug 示例已具备头文件、
+预期编译失败及 Swift 运行验证，覆盖示例展示的 API，不代表全部声明组合和构建配置都已验证。
 
 ## 它解决什么问题
 
@@ -63,8 +67,9 @@ DemoKit.framework/
 | Kotlin / Kotlin Gradle plugin | 严格限定 **2.2.21**，其他编译器版本会被拒绝 |
 | 插件构建 JDK | **21** |
 | Gradle Wrapper | **9.3.1**，不承诺其他版本兼容性 |
-| Native 构建环境 | macOS、已安装并选中的 Xcode 及对应 Apple SDK |
-| 注解库目标 | JVM 17、iOS x64、iOS arm64、iOS simulator arm64 |
+| Native 构建环境 | Apple Silicon Mac、已安装并选中的 Xcode 及对应 Apple SDK |
+| 注解库目标 | JVM 17、iOS arm64、iOS simulator arm64 |
+| Demo 验证 | Python 3、可用的 iPhone 模拟器及上述工具 |
 | 导出后端 | Kotlin/Native 的 **Objective-C export**，不适用于 Swift export |
 | 接入方式 | 本地 composite build，尚无公开发布的二进制版本 |
 | 许可证 | KOEK 使用 MIT，第三方文件见 [声明](THIRD_PARTY_NOTICES.md) |
@@ -75,20 +80,57 @@ DemoKit.framework/
 
 ## 运行通用示例
 
-[examples/basic](examples/basic) 是独立的消费工程，包含 DTO、回调协议、服务和部分枚举导出。
-选择 JDK 21 后，在仓库根目录执行：
+[examples/basic](examples/basic) 是独立的消费工程，包含 DTO、回调协议、服务、部分枚举导出，
+以及 Swift iOS App 和 XCTest 自动断言。示例只支持 arm64 真机和 arm64 模拟器。
+在仓库根目录执行：
 
 ```bash
-./gradlew -p examples/basic :shared:linkDebugFrameworkIosSimulatorArm64
+python3 examples/basic/verify.py
 ```
 
-Framework 输出位置：
+脚本会构建 Debug XCFramework、检查导出结果、在模拟器执行 5 项 Swift XCTest，最后启动
+Demo App。优先复用已启动的 iPhone 模拟器，否则启动一个可用的 iPhone；可以通过
+`--simulator <UDID>` 指定模拟器。
+
+| 自动检查 | 预期结果 |
+| --- | --- |
+| 头文件分组 | 只有 Base、Models、Services 和主头文件，选中类型的定义归属正确 |
+| 独立头文件导入 | 每个头文件分别通过真机和模拟器的 Objective-C 语法检查 |
+| XCFramework 打包 | 恰好两个 arm64 slice，打包前后头文件逐字节一致 |
+| 隐藏方法和类型 | Swift 无法访问 diagnosticMessage()、InternalDiagnostics |
+| 枚举白名单 | Swift 无法访问未选择的 GreetingState.internal |
+| 属性权限 | Swift 无法修改 Person.name，可以实际读写 GreetingService.enabled |
+| Swift 运行 | DTO 构造、方法返回、setter 效果、Kotlin 回调 Swift、枚举身份均通过 |
+
+日志和 `summary.json` 位于已被 Git 忽略的 `examples/basic/build/verification/`。
+任何检查失败都会以非零状态退出。模拟器验证无需配置签名团队，不会发布产物。
+
+如果要在 Xcode 中交互运行，先生成 Framework，再打开仓库中已有的工程：
+
+```bash
+./gradlew -p examples/basic :shared:assembleDemoKitDebugXCFramework
+open examples/basic/iosApp/KOEKDemo.xcodeproj
+```
+
+选择 **KOEKDemo** scheme 和 arm64 iPhone 模拟器后 Run。接口调用正确时页面显示 5 项绿色结果；
+Product → Test 可以重新执行 XCTest。该 scheme 只提供 Debug 配置，使用生成的 Debug
+XCFramework，不作为正式发布模板。真机运行需要自行选择签名团队，本次未进行真机运行验证。
+
+XCFramework 和单独的模拟器 Framework 输出位置：
 
 ```text
+examples/basic/shared/build/XCFrameworks/debug/DemoKit.xcframework
 examples/basic/shared/build/bin/iosSimulatorArm64/debugFramework/DemoKit.framework
 ```
 
-真机任务为 `:shared:linkDebugFrameworkIosArm64`。示例不安装或运行 iOS App，也不发布产物。
+只生成 Framework 时，可以使用 `:shared:linkDebugFrameworkIosArm64` 或
+`:shared:linkDebugFrameworkIosSimulatorArm64`。Xcode 工程已提交，无需安装 XcodeGen；
+只有维护者修改 `examples/basic/iosApp/project.yml` 后才需要执行
+`xcodegen generate --spec examples/basic/iosApp/project.yml` 重新生成工程。
+
+2026-10-21 验证环境：Kotlin 2.2.21、Gradle 9.3.1、JDK 21、Xcode 26.3、iOS 26.2 模拟器 SDK。
+已通过 Debug arm64 真机／模拟器 Framework 构建、头文件及预期编译失败检查、5 项 Swift
+运行测试和模拟器 App 启动。未验证 Release、真机运行、其他 Kotlin 版本或完整编译器回归矩阵。
 
 ## 接入已有项目
 
@@ -285,7 +327,8 @@ build/objc-export/<target>/<binary>/
 - 尚未验证与 SKIE 等其他导出转换插件同时使用，不应假定可组合。
 - Framework 构建缓存受 Kotlin Gradle plugin 的限制，KOEK 不强行开启缓存。
   当前独立版本不承诺配置缓存兼容性。
-- 当前没有自动 API 基线门禁或运行回归套件。分组结果稳定，也不能自动判断业务划分是否合理。
+- 示例已有运行和导出结果自动检查，但尚无通用 API 基线门禁或完整编译器回归矩阵。
+  分组结果稳定，也不能自动判断业务划分是否合理。
 
 ## 仓库结构
 
@@ -294,7 +337,7 @@ annotations/       注解与访问权限定义
 compiler-plugin/   Kotlin 2.2.21 适配、规则校验、桥接过滤和头文件渲染
 gradle-plugin/     链接任务接入及 Framework 文件输出
 shared/            纯 JVM 中间包协议和原子文件工具
-examples/basic/    使用本地 composite build 的通用消费工程
+examples/basic/    KMP 工程、Swift iOS Demo、XCTest 及验证脚本
 ```
 
 共享源码分别编入两个插件 JAR，没有单独的运行时依赖；Gradle 输出层不依赖 Native 编译器 AST。
@@ -305,5 +348,5 @@ examples/basic/    使用本地 composite build 的通用消费工程
 日志、示例中不要包含凭证、私有地址、本机用户名或专有 API 名称。贡献遵循 [MIT](LICENSE)。
 
 准备发布前，应验证允许／禁止接口、协议回调、继承分发、独立头文件导入、过期分组清理、
-重复输出一致性，以及计划支持的真机和模拟器构建变体。这是后续验证要求，不代表当前版本
-已经通过这些检查。
+重复输出一致性，以及计划支持的真机和模拟器构建变体。这是完整验证要求，不代表当前版本
+已通过整个矩阵；本次已验证的 Debug 示例范围见上文。

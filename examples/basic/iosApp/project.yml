@@ -1,0 +1,58 @@
+name: KOEKDemo
+options:
+  minimumXcodeGenVersion: 2.40.0
+  deploymentTarget:
+    iOS: "15.0"
+configs:
+  Debug: debug
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    ARCHS: arm64
+    CODE_SIGN_STYLE: Automatic
+    GENERATE_INFOPLIST_FILE: YES
+    TARGETED_DEVICE_FAMILY: "1,2"
+targets:
+  KOEKDemo:
+    type: application
+    platform: iOS
+    sources:
+      - KOEKDemo
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.sugite.koek.demo
+        INFOPLIST_KEY_CFBundleDisplayName: KOEK Demo
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        ENABLE_TESTABILITY: YES
+    dependencies:
+      - framework: ../shared/build/XCFrameworks/debug/DemoKit.xcframework
+        embed: true
+        codeSign: true
+  KOEKDemoTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - KOEKDemoTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.sugite.koek.demo.tests
+    dependencies:
+      - target: KOEKDemo
+schemes:
+  KOEKDemo:
+    build:
+      targets:
+        KOEKDemo: all
+        KOEKDemoTests: [test]
+    run:
+      config: Debug
+    profile:
+      config: Debug
+    analyze:
+      config: Debug
+    archive:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - KOEKDemoTests

@@ -1,0 +1,347 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0CB4F2995BED294F5410C0EB /* ExportChecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A71744A8FD71717859199C /* ExportChecks.swift */; };
+		288C9CF1EB1E163FE0B2E821 /* DemoKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF59C83026895CFE2BE8EBDC /* DemoKit.xcframework */; };
+		CF4496BA75FA6859828F25D4 /* DemoKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AF59C83026895CFE2BE8EBDC /* DemoKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D366537A72226CE0D4936F17 /* KOEKDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B65D4D47FAC10A0A26A0CA /* KOEKDemoApp.swift */; };
+		F4A4A99FD3E2ED36C4BC3634 /* ExportRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738A633CDEA34F7FC570C4D9 /* ExportRuntimeTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1E1FE6CB2F72E4AFC68208DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9387AFD0BBB62C75AD409881 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0DB0677370925A2472E54B2C;
+			remoteInfo = KOEKDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		39DC17B84AD44873EE0D1773 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CF4496BA75FA6859828F25D4 /* DemoKit.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4FC8AE7E4A29545B5A1D85EC /* KOEKDemoTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KOEKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		68B65D4D47FAC10A0A26A0CA /* KOEKDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KOEKDemoApp.swift; sourceTree = "<group>"; };
+		738A633CDEA34F7FC570C4D9 /* ExportRuntimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportRuntimeTests.swift; sourceTree = "<group>"; };
+		AF59C83026895CFE2BE8EBDC /* DemoKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DemoKit.xcframework; path = ../shared/build/XCFrameworks/debug/DemoKit.xcframework; sourceTree = "<group>"; };
+		D9A71744A8FD71717859199C /* ExportChecks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportChecks.swift; sourceTree = "<group>"; };
+		E1ECF9FE6D6072127DE88C51 /* KOEKDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = KOEKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F4493DDC11EBF22D867E4DD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				288C9CF1EB1E163FE0B2E821 /* DemoKit.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		449098E87FB81D1D8EF95226 /* KOEKDemo */ = {
+			isa = PBXGroup;
+			children = (
+				D9A71744A8FD71717859199C /* ExportChecks.swift */,
+				68B65D4D47FAC10A0A26A0CA /* KOEKDemoApp.swift */,
+			);
+			path = KOEKDemo;
+			sourceTree = "<group>";
+		};
+		5912CD04B437BDC4DC07EA8C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1ECF9FE6D6072127DE88C51 /* KOEKDemo.app */,
+				4FC8AE7E4A29545B5A1D85EC /* KOEKDemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		91FA4C4B067C354BC7701FED /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AF59C83026895CFE2BE8EBDC /* DemoKit.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C7920E192DDEC5F23A8588CF = {
+			isa = PBXGroup;
+			children = (
+				449098E87FB81D1D8EF95226 /* KOEKDemo */,
+				E56E9528FF4CE214E3151E57 /* KOEKDemoTests */,
+				91FA4C4B067C354BC7701FED /* Frameworks */,
+				5912CD04B437BDC4DC07EA8C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E56E9528FF4CE214E3151E57 /* KOEKDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				738A633CDEA34F7FC570C4D9 /* ExportRuntimeTests.swift */,
+			);
+			path = KOEKDemoTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0DB0677370925A2472E54B2C /* KOEKDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8877C1478EC52113447C4DA /* Build configuration list for PBXNativeTarget "KOEKDemo" */;
+			buildPhases = (
+				3B9133CDF0EE231CCE4CB730 /* Sources */,
+				F4493DDC11EBF22D867E4DD6 /* Frameworks */,
+				39DC17B84AD44873EE0D1773 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KOEKDemo;
+			packageProductDependencies = (
+			);
+			productName = KOEKDemo;
+			productReference = E1ECF9FE6D6072127DE88C51 /* KOEKDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7AF7D975D81639A78DF2B059 /* KOEKDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8424801F539A1CC05E11611D /* Build configuration list for PBXNativeTarget "KOEKDemoTests" */;
+			buildPhases = (
+				66C56E1F19471A347E50793D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B2903338A5AA344D16DAC82B /* PBXTargetDependency */,
+			);
+			name = KOEKDemoTests;
+			packageProductDependencies = (
+			);
+			productName = KOEKDemoTests;
+			productReference = 4FC8AE7E4A29545B5A1D85EC /* KOEKDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9387AFD0BBB62C75AD409881 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					0DB0677370925A2472E54B2C = {
+						ProvisioningStyle = Automatic;
+					};
+					7AF7D975D81639A78DF2B059 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = EC164542F53E439323C5D259 /* Build configuration list for PBXProject "KOEKDemo" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = C7920E192DDEC5F23A8588CF;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 5912CD04B437BDC4DC07EA8C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0DB0677370925A2472E54B2C /* KOEKDemo */,
+				7AF7D975D81639A78DF2B059 /* KOEKDemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3B9133CDF0EE231CCE4CB730 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CB4F2995BED294F5410C0EB /* ExportChecks.swift in Sources */,
+				D366537A72226CE0D4936F17 /* KOEKDemoApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66C56E1F19471A347E50793D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4A4A99FD3E2ED36C4BC3634 /* ExportRuntimeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B2903338A5AA344D16DAC82B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0DB0677370925A2472E54B2C /* KOEKDemo */;
+			targetProxy = 1E1FE6CB2F72E4AFC68208DC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		74444DFFAD4D8FB445132FF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"../shared/build/XCFrameworks/debug\"",
+				);
+				INFOPLIST_KEY_CFBundleDisplayName = "KOEK Demo";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.sugite.koek.demo;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9A29CA21DDC240A0C0E16CAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BEF9088201DDFDD71C3050E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.sugite.koek.demo.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KOEKDemo.app/KOEKDemo";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8424801F539A1CC05E11611D /* Build configuration list for PBXNativeTarget "KOEKDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEF9088201DDFDD71C3050E6 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EC164542F53E439323C5D259 /* Build configuration list for PBXProject "KOEKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A29CA21DDC240A0C0E16CAB /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F8877C1478EC52113447C4DA /* Build configuration list for PBXNativeTarget "KOEKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74444DFFAD4D8FB445132FF4 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9387AFD0BBB62C75AD409881 /* Project object */;
+}
