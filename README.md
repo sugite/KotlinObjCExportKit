@@ -2,6 +2,8 @@
 
 [简体中文](README.zh-CN.md)
 
+[Changelog and Kotlin compatibility](CHANGELOG.md)
+
 > **Composite builds only.** KOEK is currently available only as a local source
 > checkout included through Gradle composite builds. No binaries are published to
 > Maven Central or the Gradle Plugin Portal. The coordinates shown below must be
@@ -153,14 +155,14 @@ compiler-plugin regression matrix are outside this validation.
 ## Add KOEK to an existing project
 
 Clone this repository next to your consumer project. The snippets below assume
-that `../KotlinObjcExportKit` points to this checkout.
+that `../KotlinObjCExportKit` points to this checkout.
 
 In the consumer's `settings.gradle.kts`, add the plugin build to
 `pluginManagement`, and substitute the compiler and annotation artifacts:
 
 ```kotlin
 pluginManagement {
-    includeBuild("../KotlinObjcExportKit")
+    includeBuild("../KotlinObjCExportKit")
     repositories {
         gradlePluginPortal()
         mavenCentral()
@@ -171,7 +173,7 @@ dependencyResolutionManagement {
     repositories { mavenCentral() }
 }
 
-includeBuild("../KotlinObjcExportKit") {
+includeBuild("../KotlinObjCExportKit") {
     dependencySubstitution {
         substitute(module("io.github.sugite.koek:compiler-plugin"))
             .using(project(":compiler-plugin"))

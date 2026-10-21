@@ -9,5 +9,5 @@ dependencyResolutionManagement {
     repositories { mavenCentral() }
 }
 
-rootProject.name = "KotlinObjcExportKit"
+rootProject.name = "KotlinObjCExportKit"
 include(":annotations", ":gradle-plugin", ":compiler-plugin")

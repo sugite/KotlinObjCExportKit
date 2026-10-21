@@ -2,6 +2,8 @@
 
 [English](README.md)
 
+[变更记录与 Kotlin 版本兼容关系](CHANGELOG.md)
+
 > **目前仅支持本地 composite build。** 请检出本仓库源码，并按下文配置 Gradle
 > included build 和依赖替换。尚未向 Maven Central 或 Gradle Plugin Portal 发布二进制包，
 > 不能直接从这些仓库引用下文中的坐标。
@@ -134,12 +136,12 @@ examples/basic/shared/build/bin/iosSimulatorArm64/debugFramework/DemoKit.framewo
 
 ## 接入已有项目
 
-将本仓库放在消费项目旁边。以下配置假设相对路径为 `../KotlinObjcExportKit`。
+将本仓库放在消费项目旁边。以下配置假设相对路径为 `../KotlinObjCExportKit`。
 在消费项目的 `settings.gradle.kts` 中合并以下内容：
 
 ```kotlin
 pluginManagement {
-    includeBuild("../KotlinObjcExportKit")
+    includeBuild("../KotlinObjCExportKit")
     repositories {
         gradlePluginPortal()
         mavenCentral()
@@ -150,7 +152,7 @@ dependencyResolutionManagement {
     repositories { mavenCentral() }
 }
 
-includeBuild("../KotlinObjcExportKit") {
+includeBuild("../KotlinObjCExportKit") {
     dependencySubstitution {
         substitute(module("io.github.sugite.koek:compiler-plugin"))
             .using(project(":compiler-plugin"))
