@@ -1,0 +1,4 @@
+# External support types required by the selected enum's native mapping.
+class Base kotlin.Enum
+class Base kotlin.Array
+protocol Base kotlin.Comparable
